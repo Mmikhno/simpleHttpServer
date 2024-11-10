@@ -8,7 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -80,6 +82,7 @@ public class Server {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         });
         addHandler("GET", "/classic.html", new Handler() {
@@ -150,6 +153,7 @@ public class Server {
             String path;
             String method;
             String requestLine;
+            Request request = null;
             try {
                 requestLine = in.readLine();
                 System.out.println("request is " + requestLine);
@@ -159,7 +163,7 @@ public class Server {
                 }
                 path = parts[1];
                 method = parts[0];
-                Request request = new Request(method, path);
+                request = new Request(method, path);
                 return request;
             } catch (IOException e) {
                 e.printStackTrace();
